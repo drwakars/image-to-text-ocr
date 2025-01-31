@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحويل الصورة إلى نص</title>
+</head>
+<body>
+    <h2>رفع صورة لاستخراج النص</h2>
+    <input type="file" id="imageInput">
+    <button onclick="extractText()">استخراج النص</button>
+    <p id="result"></p>
+
+    <script>
+        function extractText() {
+            const input = document.getElementById("imageInput");
+            if (input.files.length === 0) {
+                alert("يرجى اختيار صورة");
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append("image", input.files[0]);
+
+            fetch("https://your-render-url.onrender.com/upload", { // استبدل your-render-url برابط استضافتك
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = data.text;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
